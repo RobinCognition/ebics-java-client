@@ -16,12 +16,12 @@ jobs:
     environment: main
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v2
       with:
-        java-version: '17'
-        distribution: 'temurin'
+        java-version: '8'
+        distribution: 'adopt'
         server-id: ossrh
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD

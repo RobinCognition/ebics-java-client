@@ -214,7 +214,7 @@ public final class Utils {
         Canonicalizer 		canonicalizer;
 
         canonicalizer = Canonicalizer.getInstance(Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS);
-        canonicalizer.canonicalizeSubtree(node, output);
+        output.write(canonicalizer.canonicalizeSubtree(node));
       }
 
       return output.toByteArray();
