@@ -4,15 +4,13 @@
 # docker build . -t client;sudo docker run  -v $HOME/ebics:/root/ebics client --sta -o sta.txt
 # java -cp "ebics-cli-*.jar:lib/*" org.kopi.ebics.client.EbicsClient --help
 # java -cp "ebics-cli-*.jar:lib/*" org.kopi.ebics.client.EbicsClient --sta -o sta.txt
-FROM maven:3-jdk-8 as build
-#16 as build
+FROM maven:3-eclipse-temurin-17 as build
 RUN mkdir app
 COPY ./src /app/src
 COPY ./pom.xml /app/
 WORKDIR /app
 RUN mvn compile package
-FROM openjdk:8-alpine
-#16-alpine
+FROM eclipse-temurin:17-alpine
 #COPY ./libpatch/local_policy.jar ./libpatch/US_export_policy.jar /opt/jdk/jre/lib/security/
 RUN mkdir /app
 COPY --from=build /app/target/ebics*.jar /app/
