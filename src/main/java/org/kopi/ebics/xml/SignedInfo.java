@@ -20,6 +20,7 @@
 package org.kopi.ebics.xml;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -143,7 +144,9 @@ public class SignedInfo extends DefaultEbicsRootElement {
       document = builder.parse(new ByteArrayInputStream(toSign));
       node = XPathAPI.selectSingleNode(document, "//ds:SignedInfo");
       canonicalizer = Canonicalizer.getInstance(Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS);
-      return user.authenticate(canonicalizer.canonicalizeSubtree(node));
+      ByteArrayOutputStream output = new ByteArrayOutputStream();
+      canonicalizer.canonicalizeSubtree(node, output);
+      return user.authenticate(output.toByteArray());
     } catch(Exception e) {
       throw new EbicsException(e.getMessage());
     }
