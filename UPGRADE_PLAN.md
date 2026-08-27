@@ -70,7 +70,9 @@ Tasks:
    ```bash
    mvn -version                       # record Maven + JDK in the PR/issue
    mvn -B -DskipTests clean package    # must succeed on JDK 8
-   mvn -Psecurity-scan -Dnvd.api.key=$NVD_API_KEY verify   # writes target/dependency-check-report.*
+   # -Dgpg.skip=true is required: maven-gpg-plugin binds `sign` to the verify phase for every
+   # build, so verify fails before dependency-check runs unless a signing key is present.
+   mvn -Psecurity-scan -DskipTests -Dgpg.skip=true -Dnvd.api.key=$NVD_API_KEY verify
    ```
 4. Commit the resulting report summary (or attach it to the tracking issue) as *the* baseline list of
    CVEs. Every later phase is verified by re-running the scan and diffing against it.

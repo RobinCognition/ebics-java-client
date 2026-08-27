@@ -16,7 +16,7 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
       - name: Run dependency-check
-        run: mvn -B -Psecurity-scan -DskipTests -Dnvd.api.key=${{ secrets.NVD_API_KEY }} verify
+        run: mvn -B -Psecurity-scan -DskipTests -Dgpg.skip=true -Dnvd.api.key=${{ secrets.NVD_API_KEY }} verify
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
